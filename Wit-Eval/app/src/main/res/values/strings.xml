@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Bobo</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="speech_prompt">say something</string>
-    <string name="speech_not_supported">Sorry ur device doesnt support input</string>
-    <color name="my_color">#5BBCB2</color>
-</resources>
