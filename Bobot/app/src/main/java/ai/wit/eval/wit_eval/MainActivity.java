@@ -38,6 +38,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class MainActivity extends ActionBarActivity implements IWitListener {
     //
@@ -144,6 +148,32 @@ public class MainActivity extends ActionBarActivity implements IWitListener {
             return;
         }
         String jsonOutput = gson.toJson(witOutcomes);
+
+        Log.d("Raw Output:-",jsonOutput.toString());
+
+        String intent="",amount="",sub="";
+        try
+        {
+            JSONArray raw_output = new JSONArray(jsonOutput);
+            JSONObject obj = raw_output.getJSONObject(0);
+            intent = "Intent = " + obj.get("intent");
+            Log.d("Intent:-",intent);
+            if(obj.get("intent")=="get_grocery") {
+                amount = "Amount = " + obj.getJSONObject("entities").getJSONArray("number").getJSONObject(0).get("value");
+                sub = "Message = " + obj.getJSONObject("entities").getJSONArray("message_subject").getJSONObject(0).get("value");
+            }
+            else
+            {
+                amount = "Amount = " + obj.getJSONObject("entities").getJSONArray("amount_of_money").getJSONObject(0).get("value");
+                sub = "Message = " + obj.getJSONObject("entities").getJSONArray("phone_number").getJSONObject(0).get("value");
+            }
+                jsonOutput = intent + "\n" + amount + "\n" + sub;
+        }
+        catch(JSONException e)
+        {
+            jsonOutput = "Intent not Recognised" + intent + amount + sub;
+            e.printStackTrace();
+        }
         jsonView.setText(jsonOutput);
         ((TextView) findViewById(R.id.txtText)).setText("Done!");
     }
